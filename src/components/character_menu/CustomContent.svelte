@@ -2,6 +2,7 @@
     import Paper from "@smui/paper";
     import { supabase } from "../../db";
     import IconButton, { Icon } from '@smui/icon-button';
+    import DOMPurify from 'dompurify';
     
     let addingContent = false;
     let value = '';
@@ -30,7 +31,10 @@
         {#if addingContent}
             <textarea bind:value={value}></textarea>
             <IconButton class="material-icons" on:click={() => {
-                customContent.push({content: value});
+                let contentToPush = value;
+                let safeContent = DOMPurify.sanitize(contentToPush, {USE_PROFILES: {html: true}});
+
+                customContent.push({content: safeContent});
                 value = '';
                 addingContent = false;
                 customContent = customContent;
