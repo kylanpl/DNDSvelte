@@ -68,7 +68,8 @@
         <div>
             <Paper variant="outlined">
                 <div class="row">
-                    <p>{@html item.content}</p>
+
+                    <p>{@html DOMPurify.sanitize(item.content, {USE_PROFILES: {html: true}})}</p>
                 </div>
                 
             </Paper>
